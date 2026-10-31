@@ -1,0 +1,12 @@
+{
+  "name": "Bout en bout (Playwright)",
+  "description": "Tests de bout en bout Chromium et WebKit dans l'image officielle de Playwright (tiré de factory-live).",
+  "iconName": "octicon browser",
+  "categories": [
+    "JavaScript",
+    "TypeScript"
+  ],
+  "filePatterns": [
+    "playwright.config"
+  ]
+}

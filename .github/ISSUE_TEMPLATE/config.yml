@@ -1,0 +1,6 @@
+# Généré par hermes-software-factory (scripts/factory-github-templates.py) depuis config/types.yaml : ne pas éditer ici.
+blank_issues_enabled: false
+contact_links:
+- name: Faille de sécurité
+  url: https://github.com/code-my-life/.github/blob/main/SECURITY.md
+  about: 'Jamais en issue publique : la marche à suivre pour la signaler en privé.'

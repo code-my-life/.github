@@ -1,0 +1,45 @@
+# Généré par hermes-software-factory (scripts/factory-github-templates.py) depuis config/types.yaml : ne pas éditer ici.
+name: Documentation
+description: README, guides, documentation. Seuls des documents changent.
+labels:
+- type:documentation
+type: Task
+body:
+- type: markdown
+  attributes:
+    value: 'Modèle de la software factory (ADR 0017). Chaque section obligatoire est vérifiée à l''entrée : une issue incomplète
+      reçoit le label « à cadrer » et ne part pas en fabrication. Numérote les critères C1, C2… : chacun se vérifie par un
+      test, une mesure ou une capture.'
+- type: textarea
+  id: documents
+  attributes:
+    label: Documents
+    description: Les fichiers ou pages concernés.
+  validations:
+    required: true
+- type: textarea
+  id: lecteur
+  attributes:
+    label: Lecteur
+    description: Pour qui c'est écrit.
+  validations:
+    required: false
+- type: textarea
+  id: contenu
+  attributes:
+    label: Contenu attendu
+    description: Ce que le document doit dire, section par section.
+  validations:
+    required: true
+- type: textarea
+  id: criteres
+  attributes:
+    label: Critères d'acceptation
+    description: 'Une ligne par critère, numérotée C1, C2… Chaque critère se vérifie par un test, une mesure ou une capture
+      : « lisible » devient « un caractère au moins et les points de suspension visibles », « sur une ligne » devient « 20
+      px de haut ».'
+    placeholder: |-
+      - C1 : …
+      - C2 : …
+  validations:
+    required: true

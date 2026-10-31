@@ -1,0 +1,12 @@
+{
+  "name": "CI Node",
+  "description": "Format, lint, types, tests et build d'un projet Node (tiré de factory-live).",
+  "iconName": "octicon checklist",
+  "categories": [
+    "JavaScript",
+    "TypeScript"
+  ],
+  "filePatterns": [
+    "package.json$"
+  ]
+}

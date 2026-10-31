@@ -1,0 +1,8 @@
+{
+  "name": "Conventions de la factory",
+  "description": "Branche, titre et texte de chaque PR conformes au type de son issue (ADR 0017).",
+  "iconName": "octicon git-pull-request",
+  "categories": [
+    "Automation"
+  ]
+}

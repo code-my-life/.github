@@ -1,0 +1,90 @@
+# Généré par hermes-software-factory (scripts/factory-github-templates.py) depuis config/types.yaml : ne pas éditer ici.
+name: Interface
+description: Une apparence nouvelle ou modifiée (écran, composant, style), à partir d'une maquette validée.
+labels:
+- type:interface
+type: Feature
+body:
+- type: markdown
+  attributes:
+    value: 'Modèle de la software factory (ADR 0017). Chaque section obligatoire est vérifiée à l''entrée : une issue incomplète
+      reçoit le label « à cadrer » et ne part pas en fabrication. Numérote les critères C1, C2… : chacun se vérifie par un
+      test, une mesure ou une capture.'
+- type: textarea
+  id: constat
+  attributes:
+    label: Constat
+    description: Ce qui se passe aujourd'hui, ce qui manque ou gêne. Des faits, pas la solution.
+  validations:
+    required: true
+- type: textarea
+  id: impact
+  attributes:
+    label: Impact
+    description: Pour qui, et ce que cela coûte ou empêche.
+  validations:
+    required: true
+- type: textarea
+  id: maquette
+  attributes:
+    label: Maquette
+    description: Le lien de la maquette validée (artifact claude.ai) ou le fichier HTML joint. Sans maquette validée, l'issue
+      n'est pas prête.
+  validations:
+    required: true
+- type: textarea
+  id: inventaire
+  attributes:
+    label: Inventaire
+    description: 'Chaque endroit touché, écran par écran : composant, état, contexte.'
+  validations:
+    required: true
+- type: textarea
+  id: regles
+  attributes:
+    label: Règles chiffrées
+    description: Tailles, jetons de couleur, états, largeurs de 390 et 1440 px, thèmes clair et sombre.
+  validations:
+    required: true
+- type: textarea
+  id: attendu
+  attributes:
+    label: Attendu
+    description: Le résultat voulu, déjà décidé. Pas une piste à explorer.
+  validations:
+    required: true
+- type: textarea
+  id: criteres
+  attributes:
+    label: Critères d'acceptation
+    description: 'Une ligne par critère, numérotée C1, C2… Chaque critère se vérifie par un test, une mesure ou une capture
+      : « lisible » devient « un caractère au moins et les points de suspension visibles », « sur une ligne » devient « 20
+      px de haut ».'
+    placeholder: |-
+      - C1 : …
+      - C2 : …
+  validations:
+    required: true
+- type: textarea
+  id: tests
+  attributes:
+    label: Tests
+    description: 'Une ligne par test : le fichier entre accents graves et le nom exact du test entre « ». Le premier échoue
+      avant la correction et passe après.'
+    placeholder: '- `chemin/du/fichier.test.ts` : « nom exact du test »'
+  validations:
+    required: true
+- type: textarea
+  id: captures
+  attributes:
+    label: Captures
+    description: Les captures de référence à refaire.
+  validations:
+    required: false
+- type: textarea
+  id: ne_change_pas
+  attributes:
+    label: Ne change pas
+    description: Ce qui doit rester tel quel, hors du périmètre.
+  validations:
+    required: false

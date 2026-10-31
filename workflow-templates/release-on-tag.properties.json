@@ -1,0 +1,11 @@
+{
+  "name": "Release sur tag",
+  "description": "Tests, contrôle tag = version, build et release GitHub d'un tag vX.Y.Z (tiré de claude-cockpit).",
+  "iconName": "octicon rocket",
+  "categories": [
+    "Automation"
+  ],
+  "filePatterns": [
+    "package.json$"
+  ]
+}

@@ -1,0 +1,30 @@
+name: Conventions
+
+# Workflow réutilisable : la branche, le titre et le texte d'une pull request suivent le type de son issue (ADR 0017 de
+# hermes-software-factory). Chaque dépôt public de code-my-life l'appelle depuis son propre workflow « Conventions »,
+# qui donne les permissions. Celles d'un workflow appelé ne peuvent que réduire celles de l'appelant : le contrôle lit
+# l'issue liée à la branche, il garde donc la lecture du code, des issues et des pull requests.
+on:
+  workflow_call:
+
+permissions:
+  contents: read
+  issues: read
+  pull-requests: read
+
+jobs:
+  conventions:
+    name: Branche, titre et texte de PR
+    if: github.event_name == 'pull_request'
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          repository: code-my-life/.github
+          ref: main
+          path: .conventions
+          persist-credentials: false
+      - name: Vérifier la pull request
+        run: python3 .conventions/conventions/check.py
+        env:
+          GITHUB_TOKEN: ${{ github.token }}

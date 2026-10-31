@@ -1,0 +1,11 @@
+{
+  "name": "Tag de version",
+  "description": "Pose le tag vX.Y.Z quand la version de package.json change, avec le jeton de l'App de la factory (tiré de claude-cockpit).",
+  "iconName": "octicon tag",
+  "categories": [
+    "Automation"
+  ],
+  "filePatterns": [
+    "package.json$"
+  ]
+}

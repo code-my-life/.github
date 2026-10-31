@@ -1,0 +1,275 @@
+{
+  "generated-by": "Généré par hermes-software-factory (scripts/factory-github-templates.py) depuis config/types.yaml : ne pas éditer ici.",
+  "version": 1,
+  "label-incomplete": "à cadrer",
+  "label-incomplete-color": "d93f0b",
+  "branch-skip": [
+    "dependabot/",
+    "revert/"
+  ],
+  "pr-sections": [
+    "Ce qui a été fait",
+    "Critères",
+    "Preuves",
+    "Ce qui n'est pas prouvé",
+    "Version"
+  ],
+  "fields": {
+    "constat": {
+      "label": "Constat",
+      "description": "Ce qui se passe aujourd'hui, ce qui manque ou gêne. Des faits, pas la solution."
+    },
+    "impact": {
+      "label": "Impact",
+      "description": "Pour qui, et ce que cela coûte ou empêche."
+    },
+    "attendu": {
+      "label": "Attendu",
+      "description": "Le résultat voulu, déjà décidé. Pas une piste à explorer."
+    },
+    "criteres": {
+      "label": "Critères d'acceptation",
+      "description": "Une ligne par critère, numérotée C1, C2… Chaque critère se vérifie par un test, une mesure ou une capture : « lisible » devient « un caractère au moins et les points de suspension visibles », « sur une ligne » devient « 20 px de haut ».",
+      "placeholder": "- C1 : …\n- C2 : …",
+      "check": "criteria"
+    },
+    "tests": {
+      "label": "Tests",
+      "description": "Une ligne par test : le fichier entre accents graves et le nom exact du test entre « ». Le premier échoue avant la correction et passe après.",
+      "placeholder": "- `chemin/du/fichier.test.ts` : « nom exact du test »",
+      "check": "tests"
+    },
+    "ne_change_pas": {
+      "label": "Ne change pas",
+      "description": "Ce qui doit rester tel quel, hors du périmètre."
+    },
+    "reproduction": {
+      "label": "Reproduction",
+      "description": "Les étapes, l'appareil, le thème, la version. Une capture si c'est visible."
+    },
+    "reference": {
+      "label": "Référence",
+      "description": "Ce qui définit le bon comportement : spécification, standard de l'app, version précédente, documentation. Sans référence existante, ce n'est pas un bug : c'est une issue Interface ou Fonctionnalité."
+    },
+    "cause": {
+      "label": "Cause",
+      "description": "Si elle est connue, le fichier et la ligne."
+    },
+    "maquette": {
+      "label": "Maquette",
+      "description": "Le lien de la maquette validée (artifact claude.ai) ou le fichier HTML joint. Sans maquette validée, l'issue n'est pas prête.",
+      "check": "mockup"
+    },
+    "inventaire": {
+      "label": "Inventaire",
+      "description": "Chaque endroit touché, écran par écran : composant, état, contexte."
+    },
+    "regles": {
+      "label": "Règles chiffrées",
+      "description": "Tailles, jetons de couleur, états, largeurs de 390 et 1440 px, thèmes clair et sombre."
+    },
+    "captures": {
+      "label": "Captures",
+      "description": "Les captures de référence à refaire."
+    },
+    "comportement": {
+      "label": "Comportement",
+      "description": "Entrées, sorties, cas limites, erreurs."
+    },
+    "contrat": {
+      "label": "Contrat",
+      "description": "Formats de données, API ou schémas touchés."
+    },
+    "symptome": {
+      "label": "Symptôme",
+      "description": "Ce qu'on observe, avec les messages d'erreur exacts."
+    },
+    "depuis": {
+      "label": "Depuis quand",
+      "description": "La version, la date ou le commit où c'est apparu."
+    },
+    "pistes": {
+      "label": "Pistes écartées",
+      "description": "Ce qui a déjà été vérifié, et pourquoi ce n'est pas la cause."
+    },
+    "zone": {
+      "label": "Zone non couverte",
+      "description": "Les fichiers, fonctions ou parcours sans test, et le risque."
+    },
+    "sabotages": {
+      "label": "Sabotages attendus",
+      "description": "Les défauts que les nouveaux tests doivent attraper ; la gate rejoue chacun (ADR 0013)."
+    },
+    "objectif": {
+      "label": "Objectif",
+      "description": "Ce que la maintenance apporte."
+    },
+    "perimetre": {
+      "label": "Périmètre",
+      "description": "Les fichiers, dépendances ou workflows touchés."
+    },
+    "invariant": {
+      "label": "Invariant",
+      "description": "Ce qui ne doit pas changer. Par défaut, aucun test existant n'est modifié ni retiré."
+    },
+    "documents": {
+      "label": "Documents",
+      "description": "Les fichiers ou pages concernés."
+    },
+    "lecteur": {
+      "label": "Lecteur",
+      "description": "Pour qui c'est écrit."
+    },
+    "contenu": {
+      "label": "Contenu attendu",
+      "description": "Ce que le document doit dire, section par section."
+    }
+  },
+  "types": {
+    "bug": {
+      "name": "Bug",
+      "about": "Un écart avec un comportement ou un rendu déjà défini (spécification, standard, version précédente).",
+      "label": "type:bug",
+      "color": "d73a4a",
+      "issue-type": "Bug",
+      "prefix": "fix",
+      "version": "patch",
+      "proof": "fail-first",
+      "fields": [
+        "constat",
+        "impact",
+        "reproduction",
+        "reference",
+        "cause?",
+        "attendu",
+        "criteres",
+        "tests",
+        "ne_change_pas?"
+      ],
+      "pr-sections": [
+        "Reproduction"
+      ]
+    },
+    "interface": {
+      "name": "Interface",
+      "about": "Une apparence nouvelle ou modifiée (écran, composant, style), à partir d'une maquette validée.",
+      "label": "type:interface",
+      "color": "1d76db",
+      "issue-type": "Feature",
+      "prefix": "interface",
+      "version": "minor",
+      "proof": "fail-first",
+      "fields": [
+        "constat",
+        "impact",
+        "maquette",
+        "inventaire",
+        "regles",
+        "attendu",
+        "criteres",
+        "tests",
+        "captures?",
+        "ne_change_pas?"
+      ],
+      "pr-sections": [
+        "Captures"
+      ]
+    },
+    "fonctionnalite": {
+      "name": "Fonctionnalité",
+      "about": "Une logique, une API ou des données nouvelles ou modifiées.",
+      "label": "type:fonctionnalite",
+      "color": "a2eeef",
+      "issue-type": "Feature",
+      "prefix": "feat",
+      "version": "minor",
+      "proof": "fail-first",
+      "fields": [
+        "constat",
+        "impact",
+        "comportement",
+        "contrat?",
+        "attendu",
+        "criteres",
+        "tests",
+        "ne_change_pas?"
+      ],
+      "pr-sections": []
+    },
+    "diagnostic": {
+      "name": "Diagnostic",
+      "about": "Un problème dont la cause est inconnue. Livre la cause et un test qui le reproduit, sans corriger.",
+      "label": "type:diagnostic",
+      "color": "fbca04",
+      "issue-type": "Task",
+      "version": "none",
+      "proof": "diagnostic",
+      "fields": [
+        "symptome",
+        "depuis",
+        "reproduction?",
+        "pistes?"
+      ]
+    },
+    "tests": {
+      "name": "Tests",
+      "about": "Ajouter ou renforcer des tests, sans changer le code de l'application.",
+      "label": "type:tests",
+      "color": "0e8a16",
+      "issue-type": "Task",
+      "prefix": "test",
+      "version": "none",
+      "proof": "sabotage",
+      "fields": [
+        "constat",
+        "zone",
+        "sabotages",
+        "criteres",
+        "tests",
+        "ne_change_pas?"
+      ],
+      "pr-sections": [
+        "Sabotages"
+      ]
+    },
+    "maintenance": {
+      "name": "Maintenance",
+      "about": "Refactor, dépendances, CI ou outillage, sans changement de comportement.",
+      "label": "type:maintenance",
+      "color": "c5def5",
+      "issue-type": "Task",
+      "prefix": "chore",
+      "version": "none",
+      "proof": "invariance",
+      "fields": [
+        "objectif",
+        "perimetre",
+        "invariant",
+        "criteres",
+        "ne_change_pas?"
+      ],
+      "pr-sections": [
+        "Invariant"
+      ]
+    },
+    "documentation": {
+      "name": "Documentation",
+      "about": "README, guides, documentation. Seuls des documents changent.",
+      "label": "type:documentation",
+      "color": "0075ca",
+      "issue-type": "Task",
+      "prefix": "docs",
+      "version": "none",
+      "proof": "documentation",
+      "fields": [
+        "documents",
+        "lecteur?",
+        "contenu",
+        "criteres"
+      ],
+      "pr-sections": [
+        "Documents"
+      ]
+    }
+  }
+}

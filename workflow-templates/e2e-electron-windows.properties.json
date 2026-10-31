@@ -1,0 +1,12 @@
+{
+  "name": "E2E Electron (Windows)",
+  "description": "L'app Electron réelle sur un bureau Windows, avec la vidéo du bureau (tiré de claude-cockpit).",
+  "iconName": "octicon device-desktop",
+  "categories": [
+    "JavaScript",
+    "TypeScript"
+  ],
+  "filePatterns": [
+    "package.json$"
+  ]
+}

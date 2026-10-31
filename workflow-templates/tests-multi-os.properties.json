@@ -1,0 +1,12 @@
+{
+  "name": "Tests Windows, macOS et Linux",
+  "description": "Les tests d'une app de bureau ou d'un outil sur les trois systèmes (tiré de claude-cockpit).",
+  "iconName": "octicon device-desktop",
+  "categories": [
+    "JavaScript",
+    "TypeScript"
+  ],
+  "filePatterns": [
+    "package.json$"
+  ]
+}

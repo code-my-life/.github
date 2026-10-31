@@ -1,0 +1,11 @@
+{
+  "name": "Site sur GitHub Pages",
+  "description": "Le site construit et testé à chaque PR, publié depuis la branche par défaut (tiré de factory-live).",
+  "iconName": "octicon globe",
+  "categories": [
+    "Pages"
+  ],
+  "filePatterns": [
+    "package.json$"
+  ]
+}

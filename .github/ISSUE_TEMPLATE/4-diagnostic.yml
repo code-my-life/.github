@@ -1,0 +1,40 @@
+# Généré par hermes-software-factory (scripts/factory-github-templates.py) depuis config/types.yaml : ne pas éditer ici.
+name: Diagnostic
+description: Un problème dont la cause est inconnue. Livre la cause et un test qui le reproduit, sans corriger.
+labels:
+- type:diagnostic
+type: Task
+body:
+- type: markdown
+  attributes:
+    value: 'Modèle de la software factory (ADR 0017). Chaque section obligatoire est vérifiée à l''entrée : une issue incomplète
+      reçoit le label « à cadrer » et ne part pas en fabrication. Numérote les critères C1, C2… : chacun se vérifie par un
+      test, une mesure ou une capture.'
+- type: textarea
+  id: symptome
+  attributes:
+    label: Symptôme
+    description: Ce qu'on observe, avec les messages d'erreur exacts.
+  validations:
+    required: true
+- type: textarea
+  id: depuis
+  attributes:
+    label: Depuis quand
+    description: La version, la date ou le commit où c'est apparu.
+  validations:
+    required: true
+- type: textarea
+  id: reproduction
+  attributes:
+    label: Reproduction
+    description: Les étapes, l'appareil, le thème, la version. Une capture si c'est visible.
+  validations:
+    required: false
+- type: textarea
+  id: pistes
+  attributes:
+    label: Pistes écartées
+    description: Ce qui a déjà été vérifié, et pourquoi ce n'est pas la cause.
+  validations:
+    required: false

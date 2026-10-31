@@ -1,0 +1,38 @@
+name: Tag de version
+
+# Quand la version de package.json change sur la branche par défaut (montée incluse dans la PR), pose le tag vX.Y.Z
+# s'il n'existe pas, tiré de claude-cockpit. Le tag est poussé avec un jeton de la GitHub App de la factory : poussé
+# avec GITHUB_TOKEN, il ne déclencherait aucun workflow, donc pas la release.
+on:
+  push:
+    branches: [$default-branch]
+    paths: [package.json]
+
+permissions:
+  contents: read
+
+jobs:
+  tag:
+    name: Tag de la version
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/create-github-app-token@64ab729a6294000f5aa4a4bc0b73d1f32bc45510 # v3.3.0
+        id: app
+        with:
+          app-id: ${{ secrets.FACTORY_APP_ID }}
+          private-key: ${{ secrets.FACTORY_APP_PRIVATE_KEY }}
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          fetch-depth: 0
+          token: ${{ steps.app.outputs.token }}
+      - name: Poser le tag si la version n'en a pas encore
+        run: |
+          v="v$(node -p "require('./package.json').version")"
+          if git rev-parse -q --verify "refs/tags/$v" >/dev/null; then
+            echo "tag $v déjà présent, rien à faire"; exit 0
+          fi
+          git config user.name "code-my-life-factory[bot]"
+          git config user.email "code-my-life-factory[bot]@users.noreply.github.com"
+          git tag -a "$v" -m "Release $v"
+          git push origin "$v"
+          echo "tag $v poussé : la release prend le relais"

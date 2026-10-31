@@ -1,0 +1,11 @@
+{
+  "name": "Image Docker",
+  "description": "L'image se construit, démarre, répond, tourne en non-root et en lecture seule (tiré de factory-live).",
+  "iconName": "octicon container",
+  "categories": [
+    "Dockerfile"
+  ],
+  "filePatterns": [
+    "Dockerfile$"
+  ]
+}

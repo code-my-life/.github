@@ -1,0 +1,61 @@
+# Généré par hermes-software-factory (scripts/factory-github-templates.py) depuis config/types.yaml : ne pas éditer ici.
+name: Tests
+description: Ajouter ou renforcer des tests, sans changer le code de l'application.
+labels:
+- type:tests
+type: Task
+body:
+- type: markdown
+  attributes:
+    value: 'Modèle de la software factory (ADR 0017). Chaque section obligatoire est vérifiée à l''entrée : une issue incomplète
+      reçoit le label « à cadrer » et ne part pas en fabrication. Numérote les critères C1, C2… : chacun se vérifie par un
+      test, une mesure ou une capture.'
+- type: textarea
+  id: constat
+  attributes:
+    label: Constat
+    description: Ce qui se passe aujourd'hui, ce qui manque ou gêne. Des faits, pas la solution.
+  validations:
+    required: true
+- type: textarea
+  id: zone
+  attributes:
+    label: Zone non couverte
+    description: Les fichiers, fonctions ou parcours sans test, et le risque.
+  validations:
+    required: true
+- type: textarea
+  id: sabotages
+  attributes:
+    label: Sabotages attendus
+    description: Les défauts que les nouveaux tests doivent attraper ; la gate rejoue chacun (ADR 0013).
+  validations:
+    required: true
+- type: textarea
+  id: criteres
+  attributes:
+    label: Critères d'acceptation
+    description: 'Une ligne par critère, numérotée C1, C2… Chaque critère se vérifie par un test, une mesure ou une capture
+      : « lisible » devient « un caractère au moins et les points de suspension visibles », « sur une ligne » devient « 20
+      px de haut ».'
+    placeholder: |-
+      - C1 : …
+      - C2 : …
+  validations:
+    required: true
+- type: textarea
+  id: tests
+  attributes:
+    label: Tests
+    description: 'Une ligne par test : le fichier entre accents graves et le nom exact du test entre « ». Le premier échoue
+      avant la correction et passe après.'
+    placeholder: '- `chemin/du/fichier.test.ts` : « nom exact du test »'
+  validations:
+    required: true
+- type: textarea
+  id: ne_change_pas
+  attributes:
+    label: Ne change pas
+    description: Ce qui doit rester tel quel, hors du périmètre.
+  validations:
+    required: false
