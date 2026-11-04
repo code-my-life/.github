@@ -57,7 +57,7 @@
     },
     "maquette": {
       "label": "Maquette",
-      "description": "Le lien de la maquette validée (artifact claude.ai) ou le fichier HTML joint. Sans maquette validée, l'issue n'est pas prête.",
+      "description": "Le lien de la maquette validée : l'artifact claude.ai, le fichier HTML joint, ou la démo d'une branche de code-my-life (github.com/code-my-life/<dépôt>/tree/<branche>). Sans maquette validée, l'issue n'est pas prête.",
       "check": "mockup"
     },
     "inventaire": {

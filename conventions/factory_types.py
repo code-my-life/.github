@@ -18,8 +18,11 @@ from pathlib import Path
 NO_RESPONSE = "_No response_"
 CRITERION = re.compile(r"^[ \t]*(?:[-*+][ \t]+)?(?:\[[ xX]\][ \t]+)?\**C(\d+)\**[ \t]*[:.)-][ \t]*(.*)$", re.M)
 TEST_LINE = re.compile(r"`[^`\s]+\.[A-Za-z0-9]+`[^\n]*?(?:«[^»]+»|\"[^\"\n]+\"|“[^”\n]+”)")
+# A mockup: a claude.ai artifact, a file attached to the issue, or the demo of a branch of the
+# organisation (the owner's decision of 2026-11-04: for factory-live's PR acceptance, the demo is the mockup).
 MOCKUP = re.compile(r"https://claude\.ai/(?:code/)?artifact/[\w-]+"
-                    r"|https://github\.com/user-attachments/(?:files/\d+/[^\s)]+\.html?|assets/[\w-]+)", re.I)
+                    r"|https://github\.com/user-attachments/(?:files/\d+/[^\s)]+\.html?|assets/[\w-]+)"
+                    r"|https://github\.com/code-my-life/[\w.-]+/tree/[\w./-]+", re.I)
 FIXES = re.compile(r"\b(?:fix(?:es|ed)?|close[sd]?|resolve[sd]?)\s+#(\d+)\b", re.I)
 BRANCH = re.compile(r"^(?P<prefix>[a-z]+)/(?P<number>\d+)-(?P<slug>[a-z0-9]+(?:-[a-z0-9]+)*)$")
 TITLE = re.compile(r"^(?P<prefix>[a-z]+): \S")
@@ -95,7 +98,8 @@ def tests_problem(text: str) -> str | None:
 def mockup_problem(text: str) -> str | None:
     if MOCKUP.search(text or ""):
         return None
-    return "aucun lien de maquette : l'artifact claude.ai validé, ou le fichier HTML joint à l'issue"
+    return ("aucun lien de maquette : l'artifact claude.ai validé, le fichier HTML joint à l'issue, "
+            "ou la démo d'une branche (github.com/code-my-life/<dépôt>/tree/<branche>)")
 
 
 CHECKS = {"criteria": criteria_problem, "tests": tests_problem, "mockup": mockup_problem}
@@ -184,10 +188,22 @@ def pr_problems(key: str, title: str, body: str, number: int, wanted: dict[int, 
     t = d["types"][key]
     if not t.get("prefix"):
         return [f"un {t['name']} se termine sans PR"]
-    problems = []
+    return [p for p in [pr_title_problem(key, title, d)] if p] + pr_body_problems(key, body, number, wanted, d)
+
+
+def pr_title_problem(key: str, title: str, d: dict) -> str | None:
+    """The title of a pull request of this type reads « <prefix>: <titre> »."""
+    t = d["types"][key]
     m = TITLE.match(title or "")
     if not m or m.group("prefix") != t["prefix"]:
-        problems.append(f"titre « {title} » : « {t['prefix']}: <titre> » attendu pour un type {t['name']}")
+        return f"titre « {title} » : « {t['prefix']}: <titre> » attendu pour un type {t['name']}"
+    return None
+
+
+def pr_body_problems(key: str, body: str, number: int, wanted: dict[int, str] | list[int], d: dict) -> list[str]:
+    """What the text of a pull request of this type lacks: « Fixes #n », its sections, one proof line per criterion."""
+    t = d["types"][key]
+    problems = []
     if number not in {int(x) for x in FIXES.findall(body or "")}:
         problems.append(f"texte : « Fixes #{number} » manquant")
     found = sections(body, 2)
