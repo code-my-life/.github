@@ -5,6 +5,7 @@
   "label-incomplete-color": "d93f0b",
   "branch-skip": [
     "dependabot/",
+    "renovate/",
     "revert/"
   ],
   "pr-sections": [
