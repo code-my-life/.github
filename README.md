@@ -31,6 +31,12 @@ reçoit le label `à cadrer` et ne part pas en fabrication.
 
 ## Modifier ces fichiers
 
-Les modèles d'issues, le modèle de PR et `conventions/types.json` et `conventions/factory_types.py` sont générés depuis
+Ce dépôt se modifie dans son propre clone, par une pull request.
+
+Les modèles d'issues, le modèle de PR, `conventions/types.json` et `conventions/factory_types.py` sont générés depuis
 la définition des types de la software factory (hermes-software-factory, `config/types.yaml`). Ils se modifient
-là-bas, puis sont régénérés ici. Les autres fichiers s'éditent directement.
+là-bas, puis `scripts/factory-github-templates.py` les régénère dans le clone de ce dépôt. Les autres fichiers
+s'éditent directement.
+
+Les tests du contrôle des conventions sont dans `tests/` : `python3 -m unittest discover -s tests`, relancés par le
+workflow « Tests » à chaque push sur main et sur chaque pull request.
