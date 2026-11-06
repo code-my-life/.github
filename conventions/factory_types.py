@@ -29,6 +29,11 @@ TITLE = re.compile(r"^(?P<prefix>[a-z]+): \S")
 BRIEF_TYPE = re.compile(r"^-\s*type\s*:\s*`?([\w-]+)`?", re.M)
 BRIEF_VERSION = re.compile(r"^-\s*version_bump\s*:\s*`?(\w+)", re.M)
 BRIEF_NUMBER = re.compile(r"^#\s+[\w./-]*#(\d+)\b", re.M)
+# A fenced code block opens and closes on a line of three backticks or tildes, or more.
+FENCE = re.compile(r"^[ \t]{0,3}(`{3,}|~{3,})")
+# The file of a Skill issue, in code-my-life/skills (hermes-software-factory#39).
+SKILL_FILE = re.compile(r"`(skills/[\w.-]+/[^`\s]+)`")
+NEW_SKILL = "aucun"
 CRITERIA_FIELD = "criteres"
 
 
@@ -54,13 +59,25 @@ def normalize(text: str) -> str:
 
 def sections(body: str, level: int) -> dict[str, str]:
     """The sections of a body by normalized heading: level 3 for an issue (issue forms write « ### <label> »), level 2
-    for a pull request. The first section of a given name wins."""
+    for a pull request. The first section of a given name wins. A heading inside a fenced code block, such as the text
+    of a skill quoted by a Skill issue, opens no section."""
     body = body or ""
-    heads = list(re.finditer(rf"^{'#' * level}[ \t]+(.+?)[ \t]*#*[ \t]*$", body, re.M))
+    heading = re.compile(rf"^{'#' * level}[ \t]+(.+?)[ \t]*#*[ \t]*$")
+    heads: list[tuple[int, int, str]] = []
+    fence, pos = None, 0
+    for line in body.splitlines(keepends=True):
+        mark = FENCE.match(line)
+        if mark and fence is None:
+            fence = mark.group(1)
+        elif mark and mark.group(1)[0] == fence[0] and len(mark.group(1)) >= len(fence):
+            fence = None
+        elif fence is None and (m := heading.match(line.rstrip("\r\n"))):
+            heads.append((pos, pos + len(line), m.group(1)))
+        pos += len(line)
     out: dict[str, str] = {}
-    for i, m in enumerate(heads):
-        end = heads[i + 1].start() if i + 1 < len(heads) else len(body)
-        out.setdefault(normalize(m.group(1)), body[m.end():end].strip())
+    for i, (_, end, title) in enumerate(heads):
+        stop = heads[i + 1][0] if i + 1 < len(heads) else len(body)
+        out.setdefault(normalize(title), body[end:stop].strip())
     return out
 
 
@@ -102,7 +119,77 @@ def mockup_problem(text: str) -> str | None:
             "ou la démo d'une branche (github.com/code-my-life/<dépôt>/tree/<branche>)")
 
 
-CHECKS = {"criteria": criteria_problem, "tests": tests_problem, "mockup": mockup_problem}
+def skill_file_problem(text: str) -> str | None:
+    if SKILL_FILE.search(text or ""):
+        return None
+    return "aucun fichier de skill : son chemin entre accents graves, « `skills/<nom>/SKILL.md` »"
+
+
+CHECKS = {"criteria": criteria_problem, "tests": tests_problem, "mockup": mockup_problem, "skill-file": skill_file_problem}
+
+
+def versions(t: dict) -> list[str]:
+    """The version bumps a type allows: one, or a list (Skill: patch for a changed text, minor for a new skill)."""
+    return list(t["version"]) if isinstance(t.get("version"), list) else [t.get("version")]
+
+
+def code_block(text: str | None) -> str:
+    """The content of the first fenced code block of a section, else the section itself."""
+    lines = (text or "").splitlines()
+    for i, line in enumerate(lines):
+        opening = FENCE.match(line)
+        if not opening:
+            continue
+        inner = []
+        for rest in lines[i + 1:]:
+            closing = FENCE.match(rest)
+            if closing and closing.group(1)[0] == opening.group(1)[0] and len(closing.group(1)) >= len(opening.group(1)):
+                break
+            inner.append(rest)
+        return "\n".join(inner)
+    return (text or "").strip()
+
+
+def plain(text: str | None) -> str:
+    """A text as compared line by line: no trailing spaces, no blank lines around it."""
+    return "\n".join(line.rstrip() for line in (text or "").strip("\r\n").splitlines()).strip("\n")
+
+
+def skill_change(body: str, d: dict) -> tuple[str | None, str | None, str]:
+    """(file, original text, proposed text) of a Skill issue. The original text is None for a new skill (« aucun »)."""
+    found = sections(body, 3)
+
+    def field(fid: str) -> str:
+        return found.get(normalize(d["fields"][fid]["label"])) or ""
+    path = SKILL_FILE.search(field("skill"))
+    origin = plain(code_block(field("origine")))
+    return (path.group(1) if path else None, None if origin.lower() in ("", NEW_SKILL) else origin,
+            plain(code_block(field("propose"))))
+
+
+def origin_problem(origin: str | None, content: str | None, path: str) -> str | None:
+    """The original text of a Skill issue is in the file on main, as is: else the first of its lines that is not."""
+    if origin is None:
+        return None
+    if content is None:
+        return f"`{path}` n'existe pas sur main : pour une skill nouvelle, le texte d'origine est « {NEW_SKILL} »"
+    text = plain(content)
+    if origin in text:
+        return None
+    lines = set(text.splitlines())
+    for line in origin.splitlines():
+        if line.strip() and line not in lines:
+            return f"texte d'origine absent de `{path}` sur main : la ligne « {line.strip()} » n'y est pas"
+    return f"texte d'origine absent de `{path}` sur main : ses lignes y sont, mais pas à la suite"
+
+
+def project_problem(key: str, slug: str | None, d: dict) -> str | None:
+    """A type that only applies to some projects (Skill: code-my-life/skills), opened elsewhere."""
+    projects = d["types"][key].get("projects")
+    if projects and slug not in projects:
+        return (f"le type {d['types'][key]['name']} ne vaut que pour le projet {', '.join(projects)} : ouvre l'issue dans "
+                "son dépôt")
+    return None
 
 
 def required_fields(t: dict) -> list[str]:
@@ -249,8 +336,8 @@ def brief_problems(key: str, body: str, d: dict) -> list[str]:
     if why:
         problems.append(why)
     version = BRIEF_VERSION.search(body or "")
-    if not version or version.group(1) != t["version"]:
-        problems.append(f"version_bump : « {t['version']} » attendu pour un type {t['name']}")
+    if not version or version.group(1) not in versions(t):
+        problems.append(f"version_bump : « {' » ou « '.join(versions(t))} » attendu pour un type {t['name']}")
     if not brief_criteria(body):
         problems.append("aucun critère numéroté dans « ## Critères d'acceptation » (« - [ ] C1 : … », repris de l'issue)")
     return problems
