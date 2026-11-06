@@ -124,6 +124,30 @@
     "contenu": {
       "label": "Contenu attendu",
       "description": "Ce que le document doit dire, section par section."
+    },
+    "skill": {
+      "label": "Skill et fichier",
+      "description": "La skill de code-my-life/skills et le fichier touché, entre accents graves : `skills/<nom>/SKILL.md`. Pour une skill nouvelle, le fichier qu'elle aura.",
+      "placeholder": "`skills/<nom>/SKILL.md`",
+      "check": "skill-file"
+    },
+    "origine": {
+      "label": "Texte d'origine",
+      "description": "Le passage exact du fichier sur main, copié tel quel. « aucun » pour une skill nouvelle.",
+      "render": "markdown"
+    },
+    "propose": {
+      "label": "Texte proposé",
+      "description": "Le passage qui le remplace.",
+      "render": "markdown"
+    },
+    "raison": {
+      "label": "Raison",
+      "description": "Pourquoi ce changement, en une ou deux phrases."
+    },
+    "preuve": {
+      "label": "Preuve",
+      "description": "La carte, la séance ou le verdict qui montre le blocage ou le besoin."
     }
   },
   "types": {
@@ -271,6 +295,32 @@
       "pr-sections": [
         "Documents"
       ]
+    },
+    "skill": {
+      "name": "Skill",
+      "about": "Le texte d'une skill de code-my-life/skills, changé ou nouveau, à partir d'un blocage ou d'un besoin constaté.",
+      "label": "type:skill",
+      "color": "5319e7",
+      "issue-type": "Task",
+      "prefix": "skill",
+      "version": [
+        "patch",
+        "minor"
+      ],
+      "proof": "skill",
+      "projects": [
+        "skills"
+      ],
+      "fields": [
+        "skill",
+        "origine",
+        "propose",
+        "raison",
+        "preuve",
+        "criteres",
+        "ne_change_pas?"
+      ],
+      "pr-sections": []
     }
   }
 }

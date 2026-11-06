@@ -1,5 +1,5 @@
 <!-- Généré par hermes-software-factory (scripts/factory-github-templates.py) depuis config/types.yaml : ne pas éditer ici. -->
-<!-- Titre « <préfixe>: <titre> » et branche « <préfixe>/<n° de l'issue>-<sujet> », préfixes : fix (Bug), interface (Interface), feat (Fonctionnalité), test (Tests), chore (Maintenance), docs (Documentation). -->
+<!-- Titre « <préfixe>: <titre> » et branche « <préfixe>/<n° de l'issue>-<sujet> », préfixes : fix (Bug), interface (Interface), feat (Fonctionnalité), test (Tests), chore (Maintenance), docs (Documentation), skill (Skill). -->
 Fixes #
 
 ## Ce qui a été fait
