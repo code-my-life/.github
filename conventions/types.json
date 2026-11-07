@@ -6,7 +6,8 @@
   "branch-skip": [
     "dependabot/",
     "renovate/",
-    "revert/"
+    "revert/",
+    "release/"
   ],
   "pr-sections": [
     "Ce qui a été fait",

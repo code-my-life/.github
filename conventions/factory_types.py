@@ -249,8 +249,10 @@ def type_of_prefix(prefix: str, d: dict) -> str | None:
     return next((key for key, t in d["types"].items() if t.get("prefix") == prefix), None)
 
 
-def prefixes(d: dict) -> list[str]:
-    return [t["prefix"] for t in d["types"].values() if t.get("prefix")]
+def prefixes(d: dict, slug: str | None = None) -> list[str]:
+    """The branch prefixes of the types; with a project slug, only those of the types that apply to it (``projects``)."""
+    return [t["prefix"] for t in d["types"].values()
+            if t.get("prefix") and (slug is None or not t.get("projects") or slug in t["projects"])]
 
 
 def branch_problem(key: str | None, branch: str, number: int | None, d: dict) -> str | None:
